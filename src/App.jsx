@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import heroImg from './images/hero-image-sc.jpg'
 import Chat from './components/Chat/Chat'
 import './App.css'
@@ -13,6 +13,36 @@ function App() {
     setShowMenu(!showMenu)
   }
 
+
+  const conversations = [
+    { "id": 1,
+      "title": "What is your job?",
+      "messages": ["What is your job?",
+                    "My job is to answer questions."
+                  ]
+    },   
+    { "id": 2,
+    "title": "What is your hobby?",
+    "messages": [ "What is your hobby?",
+                  "Hi, my hobbie is to play tennis.",
+                ]
+    },  
+    { "id": 3,
+    "title": "What is your favourite movie?",
+    "messages": [ "Hey my name is Clara! How are you?",
+                  "Hi, Clara. I'm doing well. I just go back from the gym. How about yourself?",
+                  "What is your favourite movie??",
+                  "My favorite movie of all time is The Godfather Part II. What's your favourite movie?",
+                  "Can you tell me more about The Godfather Part II?",
+                  "It was directed by Francis Ford Coppola and starring Robert De Niro and Marlon Brando."
+                ]
+    }
+  ]
+  useEffect(() => {
+    conversations.map(conversation => (
+      localStorage.setItem(conversation.id, JSON.stringify(conversation))
+    ))
+  },[])
   return (
     <>
       <header className='relative overflow-hidden flex justify-center'>

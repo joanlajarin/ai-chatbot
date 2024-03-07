@@ -14,7 +14,8 @@ export default function Chat() {
                 <MessageUser/>
                 <MessageBot/>
             </div>
-            <input 
+            <input
+                id="send-message"
                 className="max-w-[720px] w-[100%] rounded-md bg-[#242627] border-2 border-solid border-[#6D7275] p-[12px]"
                 placeholder="Ask simplechat.ai anything"
             >
