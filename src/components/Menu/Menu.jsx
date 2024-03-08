@@ -5,7 +5,7 @@ import { Conversation } from '../Conversation/Conversation'
 import { useState, useEffect } from 'react'
 
 
-export function Menu({onClick, onConversationChange}) {
+export function Menu({onClick, onConversationChange, addNewConversation}) {
 
     const [conversations, setConversations] = useState([])
 
@@ -16,6 +16,15 @@ export function Menu({onClick, onConversationChange}) {
             const value = localStorage.getItem(key)
             conversationsLocal.push(JSON.parse(value))
         }
+            conversationsLocal.sort((a, b) => {
+                if (a.id < b.id) {
+                return -1;
+                } else if (a.id > b.id) {
+                return 1;
+                } else {
+                return 0; // Keys are equal
+                }
+            })
         return conversationsLocal
     } 
     const handleUpdateConversation = (id, newTitle) => {
@@ -45,10 +54,12 @@ export function Menu({onClick, onConversationChange}) {
     const handleNewChat = () => {
         onConversationChange({"id": "", "title": "", "messages": []})
     }
+    
     useEffect(() => {
         const conversationsLocal = getAllLocalStorageItems()
         setConversations(conversationsLocal)
-    }, []) 
+    }, [addNewConversation]) 
+
 
     return (
         <section

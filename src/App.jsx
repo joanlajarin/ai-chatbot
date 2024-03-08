@@ -9,7 +9,9 @@ function App() {
 
   const [showMenu, setShowMenu] = useState(false)
   const [conversation, setConversation] = useState(JSON.parse(localStorage.getItem(3)))
+  const [addNewConversation, setAddNewConversation] = useState(false)
 
+  
 
   const handleMenuButtonClick = () => {
     setShowMenu(!showMenu)
@@ -49,9 +51,9 @@ function App() {
     ))
   },[])
 
-  useEffect(() => {
-
-  },[])
+  const handleCreateNewConversation = () => {
+    setAddNewConversation(!addNewConversation)
+  }
 
   return (
     <>
@@ -62,15 +64,15 @@ function App() {
         />
       </header>
       {
-        showMenu && <Menu onClick={handleMenuButtonClick} onConversationChange={handleConversationChange}/>
+        showMenu && <Menu onClick={handleMenuButtonClick} onConversationChange={handleConversationChange} addNewConversation={addNewConversation}/>
       }
       <section
-        className="flex flex-col absolute top-0 left-0 right-0 mx-auto max-w-[720px] w-[95%] h-[95%]"
+        className="flex flex-col absolute top-0 left-0 right-0 mx-auto max-w-[720px] w-[95%] h-[90%]"
       >
       {
         !showMenu && <MenuButton onClick={handleMenuButtonClick}/>
       }
-        <Chat  conversation={conversation}/>
+        <Chat createNewConversation={handleCreateNewConversation} conversation={conversation}/>
       </section>
 
     </>

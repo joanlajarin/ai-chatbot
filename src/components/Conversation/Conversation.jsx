@@ -27,6 +27,7 @@ export function Conversation({data, updateConversation, removeConversation, onCo
     const handleChangeConversation = () => {
         onConversationChange(data)
     }
+    
     useEffect(() => {
         focusInput()
     },[editActivated])
@@ -43,11 +44,13 @@ export function Conversation({data, updateConversation, removeConversation, onCo
             className={`w-full flex py-[8px] px-[12px] items-center mb-[16px] justify-between rounded-md ${showActions && 'bg-[#353839]'}`}
             onMouseOver={handleMouseOver}
             onMouseLeave={handleMouseLeave}
-            onClick={handleChangeConversation}
         >
             <button className='flex gap-[8px]'
             >
-                <img src={chatFillImg}></img>
+                <img 
+                    src={chatFillImg}
+                    onClick={handleChangeConversation}
+                ></img>
                 <input 
                     ref={inputRef}
                     id={data.id}
@@ -55,7 +58,6 @@ export function Conversation({data, updateConversation, removeConversation, onCo
                     placeholder={data.title} 
                     value={inputValue}
                     onChange={handleChange}
-                    onClick={handleChangeConversation}
                     onBlur={handleLoseFocus}
                     disabled={!editActivated}
                     >

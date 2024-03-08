@@ -3,22 +3,38 @@ import { useFetch } from "../../services/useFetch";
 import MessageBot from "../MessageBot/MessageBot";
 import MessageUser from "../MessageUser/MessageUser";
 
-export default function Chat({conversation}) {
+export default function Chat({conversation, createNewConversation}) {
 
     const [conversationChat, setConversationChat] = useState({})
+    const [newConversation, setNewConversation] = useState() 
     const [messageToApi, setMessageToApi] = useState("")
+    const [addNew, setAddNew] = useState(false)
+
 //    const {data, loading} = useFetch("")
 
     const handleChange = (event) => setMessageToApi(event.target.value) 
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
+            const messagesUpdated = conversationChat.messages
+            messagesUpdated.push(messageToApi)
             if(!conversationChat.id) {
-                console.log("new Conversation")
+                console.log("newChat")
+                const newId =  localStorage.length + 1
+                localStorage.setItem(newId, JSON.stringify({  "id": newId,
+                                                            "title": messageToApi,
+                                                            "messages": messagesUpdated}))
                 setConversationChat({...conversationChat,
-                    "id": "4"})
+                    "id": newId,
+                    "title": messageToApi,
+                    "messages": messagesUpdated
+                })
+                createNewConversation(setAddNew(!addNew))
             } else {
-                console.log("not new")
+                console.log("not newChat")
+                setConversationChat({...conversationChat,
+                    "messages": messagesUpdated
+                })
             }
             setMessageToApi("")
         }
@@ -33,7 +49,7 @@ export default function Chat({conversation}) {
         className="flex flex-col absolute w-full top-[72px] bg-[#242627] h-full mb-[-[5px] rounded-xl "
         > 
             <div className="flex flex-col p-[24px] gap-[20px] flex-1">
-                {conversationChat.messages && conversationChat.messages.map((message, index) => {
+                {conversationChat.messages &&  conversationChat.messages.map((message, index) => {
                         return (index % 2 !== 0) ? <MessageBot key={index} message={message}/> : <MessageUser key={index} message={message}/>
                     })
                 }
