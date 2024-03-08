@@ -8,43 +8,33 @@ export function Conversation({data, updateConversation, removeConversation}) {
     const [showActions, setShowActions] = useState(false)
     const [editActivated, setEditActivated] = useState(false)
     const [inputValue, setInputValue] = useState(data.title)
-
-    const handleMouseOver = () => {
-        
-        setShowActions(true)
-    }
-    const handleMouseLeave = () => {
-        setShowActions(false)
-        setEditActivated(false)
-    }
-    const handleRemoveConversation = () => {
-        removeConversation(data.id)
-    }
-
-    const handleEditConversation = () => {
-        setEditActivated(true)
-    //    
-    }
-
     const inputRef = useRef(null)
 
-    const handleFocus = () => {
+    const handleMouseOver = () => setShowActions(true)
+    const handleMouseLeave = () => setShowActions(false)
+    const handleRemoveConversation = () => removeConversation(data.id)
+    const handleEditConversation = () =>  setEditActivated(true)
+    const handleChange = (event) => setInputValue(event.target.value) 
+
+    const focusInput = () => {
         if (inputRef.current) {
           inputRef.current.focus()
         }
       }
-      useEffect(() => {
-        handleFocus()
-      },[editActivated])
 
-      const handleChange = (event) => {
-        setInputValue(event.target.value) 
-      }
-      useEffect(() => {
+    const handleLoseFocus = () => setEditActivated(false)
+
+    useEffect(() => {
+        focusInput()
+    },[editActivated])
+
+
+    useEffect(() => {
         if(inputValue !== data.title) {
             updateConversation(data.id, inputValue)
         }
-      },[inputValue])
+    },[inputValue])
+
     return (
         <div 
             className={`w-full flex py-[8px] px-[12px] items-center mb-[16px] justify-between rounded-md ${showActions && 'bg-[#353839]'}`}
@@ -60,27 +50,20 @@ export function Conversation({data, updateConversation, removeConversation}) {
                     placeholder={data.title} 
                     value={inputValue}
                     onChange={handleChange}
+                    onBlur={handleLoseFocus}
                     disabled={!editActivated}>
                 </input> 
             </button>
-            {
-                showActions && (
-                    <div 
-                        className='flex gap-[8px]'
-                    >
-                        <button
-                            onClick={handleEditConversation}
-                        >
-                            <img src={editImg}></img>
-                        </button>
-                        <button
-                            onClick={handleRemoveConversation}
-                        >
-                            <img src={trashImg}></img>
-                        </button>
-                    </div>
-                )
-            }
+            {showActions && (
+                <div className='flex gap-[8px]'>
+                    <button onClick={handleEditConversation}>
+                        <img src={editImg}></img>
+                    </button>
+                    <button onClick={handleRemoveConversation}>
+                        <img src={trashImg}></img>
+                    </button>
+                </div>
+            )}
         </div>
     )
 }
