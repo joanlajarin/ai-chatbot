@@ -8,7 +8,7 @@ import {Menu} from './components/Menu/Menu'
 function App() {
 
   const [showMenu, setShowMenu] = useState(false)
-
+  const [conversation, setConversation] = useState(JSON.parse(localStorage.getItem(3)))
   const handleMenuButtonClick = () => {
     setShowMenu(!showMenu)
   }
@@ -43,6 +43,7 @@ function App() {
       localStorage.setItem(conversation.id, JSON.stringify(conversation))
     ))
   },[])
+
   return (
     <>
       <header className='relative overflow-hidden flex justify-center'>
@@ -60,7 +61,7 @@ function App() {
       {
         !showMenu && <MenuButton onClick={handleMenuButtonClick}/>
       }
-        <Chat/>
+        <Chat conversation={conversation}/>
       </section>
 
     </>
