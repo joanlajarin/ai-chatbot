@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { useFetch } from "../../services/useFetch";
-import MessageBot from "../MessageBot/MessageBot";
-import MessageUser from "../MessageUser/MessageUser";
+import { useEffect, useState } from "react"
+import { useFetch } from "../../services/useFetch"
+import MessageBot from "../MessageBot/MessageBot"
+import MessageUser from "../MessageUser/MessageUser"
+
 
 export default function Chat({conversation, createNewConversation}) {
 
@@ -9,15 +10,23 @@ export default function Chat({conversation, createNewConversation}) {
     const [newConversation, setNewConversation] = useState() 
     const [messageToApi, setMessageToApi] = useState("")
     const [addNew, setAddNew] = useState(false)
+    const [loading, setLoading]  = useState(false)
 
-//    const {data, loading} = useFetch("")
 
     const handleChange = (event) => setMessageToApi(event.target.value) 
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
+         //   const {dataApi, loading} = useFetch()
+            setLoading(true)
             const messagesUpdated = conversationChat.messages
             messagesUpdated.push(messageToApi)
+           // useFetch({"inputs": {"text": `${messageToApi}`}}).then((response) => {
+            useFetch({"inputs": `${messageToApi}`}).then((response) => {
+                console.log(JSON.stringify(response))
+                JSON.stringify(response).includes("generated_text") && messagesUpdated.push(response[0].generated_text)
+                setLoading(false)
+            })
             if(!conversationChat.id) {
                 console.log("newChat")
                 const newId =  localStorage.length + 1
@@ -61,6 +70,7 @@ export default function Chat({conversation, createNewConversation}) {
                 value={messageToApi}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
+                disabled={loading}
             >
             </input>
         </section>
