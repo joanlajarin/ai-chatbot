@@ -9,10 +9,15 @@ function App() {
 
   const [showMenu, setShowMenu] = useState(false)
   const [conversation, setConversation] = useState(JSON.parse(localStorage.getItem(3)))
+
+
   const handleMenuButtonClick = () => {
     setShowMenu(!showMenu)
   }
 
+  const handleConversationChange = (newConversationData) => {
+    setConversation(newConversationData)
+  }
 
   const conversations = [
     { "id": 1,
@@ -44,6 +49,10 @@ function App() {
     ))
   },[])
 
+  useEffect(() => {
+
+  },[])
+
   return (
     <>
       <header className='relative overflow-hidden flex justify-center'>
@@ -53,7 +62,7 @@ function App() {
         />
       </header>
       {
-        showMenu && <Menu onClick={handleMenuButtonClick}/>
+        showMenu && <Menu onClick={handleMenuButtonClick} onConversationChange={handleConversationChange}/>
       }
       <section
         className="flex flex-col absolute top-0 left-0 right-0 mx-auto max-w-[720px] w-[95%] h-[95%]"
@@ -61,7 +70,7 @@ function App() {
       {
         !showMenu && <MenuButton onClick={handleMenuButtonClick}/>
       }
-        <Chat conversation={conversation}/>
+        <Chat  conversation={conversation}/>
       </section>
 
     </>

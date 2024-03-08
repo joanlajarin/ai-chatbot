@@ -3,7 +3,7 @@ import chatFillImg from '../../images/Chat_fill.svg'
 import editImg from '../../images/Edit.svg' 
 import trashImg from '../../images/Trash.svg' 
 
-export function Conversation({data, updateConversation, removeConversation}) {
+export function Conversation({data, updateConversation, removeConversation, onConversationChange}) {
 
     const [showActions, setShowActions] = useState(false)
     const [editActivated, setEditActivated] = useState(false)
@@ -24,6 +24,9 @@ export function Conversation({data, updateConversation, removeConversation}) {
 
     const handleLoseFocus = () => setEditActivated(false)
 
+    const handleChangeConversation = () => {
+        onConversationChange(data)
+    }
     useEffect(() => {
         focusInput()
     },[editActivated])
@@ -40,8 +43,10 @@ export function Conversation({data, updateConversation, removeConversation}) {
             className={`w-full flex py-[8px] px-[12px] items-center mb-[16px] justify-between rounded-md ${showActions && 'bg-[#353839]'}`}
             onMouseOver={handleMouseOver}
             onMouseLeave={handleMouseLeave}
+            onClick={handleChangeConversation}
         >
-            <button className='flex gap-[8px]'>
+            <button className='flex gap-[8px]'
+            >
                 <img src={chatFillImg}></img>
                 <input 
                     ref={inputRef}
@@ -50,8 +55,11 @@ export function Conversation({data, updateConversation, removeConversation}) {
                     placeholder={data.title} 
                     value={inputValue}
                     onChange={handleChange}
+                    onClick={handleChangeConversation}
                     onBlur={handleLoseFocus}
-                    disabled={!editActivated}>
+                    disabled={!editActivated}
+                    >
+                        
                 </input> 
             </button>
             {showActions && (

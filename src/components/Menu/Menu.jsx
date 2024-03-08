@@ -5,7 +5,7 @@ import { Conversation } from '../Conversation/Conversation'
 import { useState, useEffect } from 'react'
 
 
-export function Menu({onClick}) {
+export function Menu({onClick, onConversationChange}) {
 
     const [conversations, setConversations] = useState([])
 
@@ -39,6 +39,12 @@ export function Menu({onClick}) {
         setConversations(conversationsLocal)
     }
 
+    const handleOnConversationChange = (newConversationData) => {
+        onConversationChange(newConversationData)
+    }
+    const handleNewChat = () => {
+        onConversationChange({"id": "", "title": "", "messages": []})
+    }
     useEffect(() => {
         const conversationsLocal = getAllLocalStorageItems()
         setConversations(conversationsLocal)
@@ -56,7 +62,10 @@ export function Menu({onClick}) {
                     <img src={menuImg}></img>
                </button>
             </div>
-            <button className='flex py-[8px] px-[12px] gap-[8px] items-center mb-[16px]'>
+            <button 
+                className='flex py-[8px] px-[12px] gap-[8px] items-center mb-[16px]'
+                onClick={handleNewChat}
+            >
                 <img src={newChatImg}></img>
                 <span className='text-[#B3B7B9] text-[14px] font-semibold'>New Chat</span>
             </button>
@@ -64,7 +73,13 @@ export function Menu({onClick}) {
             <div className='grid'>
             {
                 conversations && conversations.map( (conversation) => {
-                    return <Conversation key={conversation.id} data={conversation}  updateConversation={handleUpdateConversation} removeConversation={handleRemoveConversation} />
+                    return <Conversation 
+                                key={conversation.id} 
+                                data={conversation}  
+                                updateConversation={handleUpdateConversation} 
+                                removeConversation={handleRemoveConversation} 
+                                onConversationChange={handleOnConversationChange}
+                                />
                 })
             }
             </div>
