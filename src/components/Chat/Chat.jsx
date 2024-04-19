@@ -20,31 +20,35 @@ export default function Chat({conversation, createNewConversation}) {
          //   const {dataApi, loading} = useFetch()
             setLoading(true)
             const messagesUpdated = conversationChat.messages
-            messagesUpdated.push(messageToApi)
-           // useFetch({"inputs": {"text": `${messageToApi}`}}).then((response) => {
             useFetch({"inputs": `${messageToApi}`}).then((response) => {
+          //  useFetch({"inputs": {
+          //      "past_user_inputs": messagesUpdated,
+          //      "text": `${messageToApi}`
+          //      }}).then((response) => {
                 console.log(JSON.stringify(response))
+                messagesUpdated.push(messageToApi)
                 JSON.stringify(response).includes("generated_text") && messagesUpdated.push(response[0].generated_text)
                 setLoading(false)
+                if(!conversationChat.id) {
+                    console.log("newChat")
+                    const newId =  localStorage.length + 1
+                    localStorage.setItem(newId, JSON.stringify({  "id": newId,
+                                                                "title": messageToApi,
+                                                                "messages": messagesUpdated}))
+                    setConversationChat({...conversationChat,
+                        "id": newId,
+                        "title": messageToApi,
+                        "messages": messagesUpdated
+                    })
+                    createNewConversation(setAddNew(!addNew))
+                } else {
+                    console.log("not newChat")
+                    setConversationChat({...conversationChat,
+                        "messages": messagesUpdated
+                    })
+                }
             })
-            if(!conversationChat.id) {
-                console.log("newChat")
-                const newId =  localStorage.length + 1
-                localStorage.setItem(newId, JSON.stringify({  "id": newId,
-                                                            "title": messageToApi,
-                                                            "messages": messagesUpdated}))
-                setConversationChat({...conversationChat,
-                    "id": newId,
-                    "title": messageToApi,
-                    "messages": messagesUpdated
-                })
-                createNewConversation(setAddNew(!addNew))
-            } else {
-                console.log("not newChat")
-                setConversationChat({...conversationChat,
-                    "messages": messagesUpdated
-                })
-            }
+    
             setMessageToApi("")
         }
     }
