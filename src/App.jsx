@@ -54,6 +54,7 @@ function App() {
     conversations.forEach(conversation => {
       localStorage.setItem(conversation.id, JSON.stringify(conversation));
     });
+    setConversation(JSON.parse(localStorage.getItem(3)))
     setLoading(!loading);
   }, []);
 
