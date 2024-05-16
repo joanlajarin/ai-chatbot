@@ -71,7 +71,7 @@ function App() {
         showMenu && <Menu onClick={handleMenuButtonClick} onConversationChange={handleConversationChange} addNewConversation={addNewConversation}/>
       }
       <section
-        className="flex flex-col absolute top-0 left-0 right-0 mx-auto max-w-[720px] w-[95%] h-[90%]"
+        className="flex flex-col absolute top-0 left-[10%] right-0 mx-auto max-w-[720px] w-[95%] h-[90%]"
       >
       {
         !showMenu && <MenuButton onClick={handleMenuButtonClick}/>
