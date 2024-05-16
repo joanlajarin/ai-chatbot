@@ -16,7 +16,8 @@ export function Menu({onClick, onConversationChange, addNewConversation}) {
             const value = localStorage.getItem(key)
             conversationsLocal.push(JSON.parse(value))
         }
-            conversationsLocal.sort((a, b) => {
+        const filteredConversations = conversationsLocal.filter(item => item.type === 'chat')
+            filteredConversations.sort((a, b) => {
                 if (a.id < b.id) {
                 return -1;
                 } else if (a.id > b.id) {
@@ -25,7 +26,7 @@ export function Menu({onClick, onConversationChange, addNewConversation}) {
                 return 0; // Keys are equal
                 }
             })
-        return conversationsLocal
+        return filteredConversations
     } 
     const handleUpdateConversation = (id, newTitle) => {
 
@@ -52,7 +53,7 @@ export function Menu({onClick, onConversationChange, addNewConversation}) {
         onConversationChange(newConversationData)
     }
     const handleNewChat = () => {
-        onConversationChange({"id": "", "title": "", "messages": []})
+        onConversationChange({"id": "", "title": "", "messages": [], "type": "chat"})
     }
     
     useEffect(() => {
@@ -83,9 +84,9 @@ export function Menu({onClick, onConversationChange, addNewConversation}) {
             <span className='text-[#F6FCFD] text-[14px] mb-[12px]'>Conversations</span>
             <div className='grid'>
             {
-                conversations && conversations.map( (conversation) => {
+                conversations && conversations.map( (conversation, index) => {
                     return <Conversation 
-                                key={conversation.id} 
+                                key={index} 
                                 data={conversation}  
                                 updateConversation={handleUpdateConversation} 
                                 removeConversation={handleRemoveConversation} 

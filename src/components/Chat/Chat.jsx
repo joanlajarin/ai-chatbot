@@ -34,11 +34,13 @@ export default function Chat({conversation, createNewConversation}) {
                     const newId =  localStorage.length + 1
                     localStorage.setItem(newId, JSON.stringify({  "id": newId,
                                                                 "title": messageToApi,
-                                                                "messages": messagesUpdated}))
+                                                                "messages": messagesUpdated,
+                                                                "type": "chat"}))
                     setConversationChat({...conversationChat,
                         "id": newId,
                         "title": messageToApi,
-                        "messages": messagesUpdated
+                        "messages": messagesUpdated,
+                        "type": "chat"
                     })
                     createNewConversation(setAddNew(!addNew))
                 } else {
@@ -62,7 +64,7 @@ export default function Chat({conversation, createNewConversation}) {
         className="flex flex-col absolute w-full top-[72px] bg-[#242627] h-full mb-[-[5px] rounded-xl "
         > 
             <div className="flex flex-col p-[24px] gap-[20px] flex-1">
-                {conversationChat.messages &&  conversationChat.messages.map((message, index) => {
+                {conversationChat && conversationChat.messages &&  conversationChat.messages.map((message, index) => {
                         return (index % 2 !== 0) ? <MessageBot key={index} message={message}/> : <MessageUser key={index} message={message}/>
                     })
                 }

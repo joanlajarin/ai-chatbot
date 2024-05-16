@@ -27,13 +27,15 @@ function App() {
       "title": "What is your job?",
       "messages": ["What is your job?",
                     "My job is to answer questions."
-                  ]
+                  ],
+      "type": "chat"
     },   
     { "id": 2,
     "title": "What is your hobby?",
     "messages": [ "What is your hobby?",
                   "Hi, my hobbie is to play tennis.",
-                ]
+                ],
+                "type": "chat"
     },  
     { "id": 3,
     "title": "What is your favourite movie?",
@@ -43,7 +45,8 @@ function App() {
                   "My favorite movie of all time is The Godfather Part II. What's your favourite movie?",
                   "Can you tell me more about The Godfather Part II?",
                   "It was directed by Francis Ford Coppola and starring Robert De Niro and Marlon Brando."
-                ]
+                ],
+                "type": "chat"
     }
   ]
   useEffect(() => {
