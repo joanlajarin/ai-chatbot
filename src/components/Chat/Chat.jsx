@@ -21,16 +21,10 @@ export default function Chat({conversation, createNewConversation}) {
             setLoading(true)
             const messagesUpdated = conversationChat.messages
             useFetch({"inputs": `${messageToApi}`}).then((response) => {
-          //  useFetch({"inputs": {
-          //      "past_user_inputs": messagesUpdated,
-          //      "text": `${messageToApi}`
-          //      }}).then((response) => {
-                console.log(JSON.stringify(response))
                 messagesUpdated.push(messageToApi)
                 JSON.stringify(response).includes("generated_text") && messagesUpdated.push(response[0].generated_text)
                 setLoading(false)
                 if(!conversationChat.id) {
-                    console.log("newChat")
                     const newId =  localStorage.length + 1
                     localStorage.setItem(newId, JSON.stringify({  "id": newId,
                                                                 "title": messageToApi,
@@ -44,7 +38,6 @@ export default function Chat({conversation, createNewConversation}) {
                     })
                     createNewConversation(setAddNew(!addNew))
                 } else {
-                    console.log("not newChat")
                     setConversationChat({...conversationChat,
                         "messages": messagesUpdated
                     })
