@@ -71,7 +71,7 @@ function App() {
         />
       </header>
       {
-        showMenu && <Menu onClick={handleMenuButtonClick} onConversationChange={handleConversationChange} addNewConversation={addNewConversation}/>
+        showMenu && <Menu onClick={handleMenuButtonClick} onConversationChange={handleConversationChange} addNewConversation={addNewConversation} loading={loading}/>
       }
       <section
         className="flex flex-col absolute top-0 left-[10%] right-0 mx-auto max-w-[720px] w-[95%] h-[90%]"
