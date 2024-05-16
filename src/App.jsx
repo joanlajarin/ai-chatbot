@@ -11,9 +11,6 @@ function App() {
   const [showMenu, setShowMenu] = useState(true)
   const [conversation, setConversation] = useState(JSON.parse(localStorage.getItem(3)))
   const [addNewConversation, setAddNewConversation] = useState(false)
-  const [loading, setLoading] = useState(true);
-
-  
 
   const handleMenuButtonClick = () => {
     setShowMenu(!showMenu)
@@ -55,7 +52,7 @@ function App() {
       localStorage.setItem(conversation.id, JSON.stringify(conversation));
     });
     setConversation(JSON.parse(localStorage.getItem(3)))
-    setLoading(!loading);
+    setAddNewConversation(!addNewConversation)
   }, []);
 
   const handleCreateNewConversation = () => {
@@ -71,7 +68,7 @@ function App() {
         />
       </header>
       {
-        showMenu && <Menu onClick={handleMenuButtonClick} onConversationChange={handleConversationChange} addNewConversation={addNewConversation} loading={loading}/>
+        showMenu && <Menu onClick={handleMenuButtonClick} onConversationChange={handleConversationChange} addNewConversation={addNewConversation}/>
       }
       <section
         className="flex flex-col absolute top-0 left-[10%] right-0 mx-auto max-w-[720px] w-[95%] h-[90%]"
