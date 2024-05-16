@@ -11,6 +11,7 @@ function App() {
   const [showMenu, setShowMenu] = useState(true)
   const [conversation, setConversation] = useState(JSON.parse(localStorage.getItem(3)))
   const [addNewConversation, setAddNewConversation] = useState(false)
+  const [loading, setLoading] = useState(true);
 
   
 
@@ -50,10 +51,11 @@ function App() {
     }
   ]
   useEffect(() => {
-    conversations.map(conversation => (
-      localStorage.setItem(conversation.id, JSON.stringify(conversation))
-    ))
-  },[])
+    conversations.forEach(conversation => {
+      localStorage.setItem(conversation.id, JSON.stringify(conversation));
+    });
+    setLoading(!loading);
+  }, []);
 
   const handleCreateNewConversation = () => {
     setAddNewConversation(!addNewConversation)
