@@ -8,7 +8,7 @@ import {Menu} from './components/Menu/Menu'
 
 function App() {
 
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(true)
   const [conversation, setConversation] = useState(JSON.parse(localStorage.getItem(3)))
   const [addNewConversation, setAddNewConversation] = useState(false)
 
